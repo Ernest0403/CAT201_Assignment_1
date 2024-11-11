@@ -20,5 +20,13 @@ public class Main {
 
         // Displaying book details to confirm it's available
         book1.displayDetails();
+
+        Library library = new Library();
+        System.out.print("A library is created.\n");
+        library.add_book(book1);
+        System.out.print("book1 is added into the library\n");
+
+        library.search_book();
+
     }
 }
