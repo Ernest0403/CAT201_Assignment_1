@@ -1,3 +1,5 @@
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,6 +8,12 @@ public class Library {
 
     public void add_book(Book book){
         books.add(book);
+    }
+
+    public void displayAllBook() {
+        for (int i = 0; i < books.size(); i++) {// Use equals for string comparison
+            books.get(i).displayDetails();
+        }
     }
 
     public void search_book(){
@@ -98,5 +106,58 @@ public class Library {
         if (!found) {
             System.out.println("No books found with the title: " + isbn);
         }
+    }
+
+    public void ReadLibrary(String filename) throws IOException {
+        FileInputStream inputFile = new FileInputStream(filename);
+
+        String temptitle;
+        String tempauthor;
+        String tempISBN;
+        boolean tempisAvailable;
+        String tempAvailability;
+        String tempborrowerName;
+        boolean Fileisempty = false;
+
+        while(true)
+        {
+            inputFile.read();
+            temptitle = readwords(inputFile);
+            if(temptitle.equals(""))
+                break;
+            tempauthor = readwords(inputFile);
+            tempISBN = readwords(inputFile);
+            tempAvailability = readwords(inputFile);
+            tempborrowerName = readwords(inputFile);
+
+            if (tempAvailability.equals("Available")) {
+                tempisAvailable = true;
+            }
+            else {
+                tempisAvailable = false;
+            }
+
+            Book tempBook = new Book(temptitle,tempauthor,tempISBN,tempisAvailable,tempborrowerName);
+            books.add(tempBook);
+
+//            int read = inputFile.read();
+//            char c = (char) read;
+//            System.out.print(read);
+
+        }
+    }
+
+    public String readwords(FileInputStream inputFile) throws IOException {
+        StringBuilder str = new StringBuilder();
+        int ch;
+
+        while ((ch = inputFile.read()) != -1) {
+            if ((char)ch == ',') {
+                break;
+            }
+            str.append((char)ch);
+        }
+
+        return str.toString();
     }
 }

@@ -14,6 +14,14 @@ public class Book {
         this.borrowerName = "";
     }
 
+    public Book(String title, String author, String ISBN, boolean isAvailable, String borrowerName) {
+        this.title = title;
+        this.author = author;
+        this.ISBN = ISBN;
+        this.isAvailable = isAvailable;
+        this.borrowerName = borrowerName;
+    }
+
     // Method to borrow the book
     public void borrowBook(String borrowerName) {
         if (isAvailable) {
