@@ -3,6 +3,6 @@ Deep Learning,Ian Goodfellow,9780262035613,Borrowed,John Doe
 Python Machine Learning,Sebastian Raschka,9781789955750,Available,
 Artificial Intelligence: A Modern Approach,Stuart Russell,9780134610993,Borrowed,Jane Smith
 Hands-On Machine Learning with Scikit-Learn,Keras,9781492032649,Available,
-Data Science for Business,Tom Fawcett,9781449361327,Available,
+Data Science for Business,Tom Fawcett,9781449361327,Borrowed,Ben
 Pattern Recognition and Machine Learning,Christopher Bishop,9780387310732,Borrowed,Alice Johnson
-Spiderman,Lenard,22305444,Available,Ernest
+Spiderman,Lenard,22305444,Borrowed,Ernest
