@@ -113,11 +113,21 @@ public class Library {
         System.out.println("Book found. Current details:");
         foundBook.displayDetails();
 
-        System.out.println("What would you like to modify?");
-        System.out.println("1. Title\n2. Author\n3. ISBN\n4. Availability\n5. Borrower Name");
-        System.out.print("Please enter your choice: ");
-        int choice = myObj.nextInt();
-        myObj.nextLine(); // Clear newline character
+        int choice = 0;
+        while (true) {
+            try {
+                System.out.println("What would you like to modify?");
+                System.out.println("1. Title\n2. Author\n3. ISBN\n4. Availability\n5. Borrower Name");
+                System.out.print("Please enter your choice: ");
+                choice = myObj.nextInt();
+                myObj.nextLine(); // Clear newline character
+                if (choice >= 1 && choice <= 5) break; // Valid choice
+                System.out.println("Invalid choice! Please enter a number between 1 and 5.");
+            } catch (Exception e) {
+                System.out.println("Invalid input! Please enter a number.");
+                myObj.nextLine(); // Clear invalid input
+            }
+        }
 
         switch (choice) {
             case 1 -> {
@@ -138,11 +148,29 @@ public class Library {
             case 4 -> {
                 System.out.print("Enter availability (Available/Borrowed): ");
                 String availability = myObj.nextLine();
-                boolean isAvailable = availability.equalsIgnoreCase("Available");
-                foundBook.setAvailable(isAvailable);
+                if (availability.equalsIgnoreCase("Available")) {
+                    foundBook.setAvailable(true);
+                    foundBook.setBorrowerName(""); // Clear borrower name if available
+                } else if (availability.equalsIgnoreCase("Borrowed")) {
+                    foundBook.setAvailable(false);
+                    System.out.print("Enter borrower name (leave blank if unknown): ");
+                    String borrowerName = myObj.nextLine();
+                    if (borrowerName.isEmpty()) {
+                        System.out.println("No borrower name entered. Setting availability to 'Available'.");
+                        foundBook.setAvailable(true);
+                    } else {
+                        foundBook.setBorrowerName(borrowerName);
+                    }
+                } else {
+                    System.out.println("Invalid input for availability! No changes made.");
+                }
             }
             case 5 -> {
-                System.out.print("Enter new borrower name (or leave blank if none): ");
+                if (foundBook.isAvailable()) {
+                    System.out.println("The book is not borrowed. Borrower name cannot be modified.");
+                    return; // Return to the main options
+                }
+                System.out.print("Enter new borrower name: ");
                 String borrowerName = myObj.nextLine();
                 foundBook.setBorrowerName(borrowerName);
             }
@@ -151,6 +179,8 @@ public class Library {
 
         System.out.println("Book details updated successfully.");
     }
+
+
 
     public void ReadLibrary(String filename) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
