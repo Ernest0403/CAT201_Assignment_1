@@ -1,3 +1,5 @@
+package com.example.library;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -7,7 +9,7 @@ public class Main {
         Library library = new Library();
         System.out.println("A library is created.");
 
-        String filename = "src/Lib1.txt";
+        String filename = "src/main/java/com/example/library/Lib1.txt";
         library.ReadLibrary(filename);
 
         boolean quit = false;
