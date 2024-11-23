@@ -1,3 +1,5 @@
+package com.example.library;
+
 public class Book {
     private String title;
     private String author;
