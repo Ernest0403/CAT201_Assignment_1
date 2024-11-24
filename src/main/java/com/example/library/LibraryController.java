@@ -88,6 +88,9 @@ public class LibraryController {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(borrower -> {
+            if(borrower.isEmpty()) {
+                showAlert("Invalid Borrower", "Please fill in the name of the borrower.");
+            };
             selectedBook.borrowBook(borrower);
             bookTable.refresh();
         });
@@ -215,7 +218,17 @@ public class LibraryController {
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
-                return new Book(titleField.getText(), authorField.getText(), isbnField.getText());
+                if(titleField.getText().isEmpty() || authorField.getText().isEmpty() || isbnField.getText().isEmpty()) {
+                    showAlert("Warning: Empty data", "Please fill in all the data.");
+                    return null;
+                }
+                else if(Long.parseLong(isbnField.getText().trim()) < 9780000000000L || Long.parseLong(isbnField.getText().trim()) > 9799999999999L) {
+                    showAlert("Warning: Invalid ISBN", "Please fill in valid ISBN.");
+                    return null;
+                }
+                else {
+                    return new Book(titleField.getText(), authorField.getText(), isbnField.getText());
+                }
             }
             return null;
         });
