@@ -7,16 +7,30 @@ public class Book {
     private boolean isAvailable;
     private String borrowerName;
 
-    // Constructor for new books (default: available and no borrower)
+    /**
+     * Constructor for new books (Default: Available and no borrower).
+     *
+     * @param title  The title of the book.
+     * @param author The author of the book.
+     * @param ISBN   The ISBN of the book.
+     */
     public Book(String title, String author, String ISBN) {
         this.title = title;
         this.author = author;
         this.ISBN = ISBN;
-        this.isAvailable = true; // Default: book is available
-        this.borrowerName = ""; // Default: no borrower
+        this.isAvailable = true; // Default: Book is available
+        this.borrowerName = ""; // Default: No borrower
     }
 
-    // Constructor for books with full details (used when loading from file)
+    /**
+     * Constructor for books with full details (Used when loading from a file).
+     *
+     * @param title        The title of the book.
+     * @param author       The author of the book.
+     * @param ISBN         The ISBN of the book.
+     * @param isAvailable  Whether the book is available.
+     * @param borrowerName The name of the borrower (if borrowed).
+     */
     public Book(String title, String author, String ISBN, boolean isAvailable, String borrowerName) {
         this.title = title;
         this.author = author;
@@ -25,29 +39,41 @@ public class Book {
         this.borrowerName = borrowerName;
     }
 
-    // Method to borrow the book
+    /**
+     * Borrows the book. Updates its availability and borrower details.
+     *
+     * @param borrowerName The name of the borrower.
+     */
     public void borrowBook(String borrowerName) {
         if (isAvailable) {
+            if (borrowerName == null || borrowerName.trim().isEmpty()) {
+                System.out.println("Borrower name cannot be empty.");
+                return;
+            }
             this.isAvailable = false;
             this.borrowerName = borrowerName;
-            System.out.println(borrowerName + " has borrowed the book: " + title);
+            System.out.println("The book '" + title + "' has been borrowed by: " + borrowerName);
         } else {
-            System.out.println("The book '" + title + "' is currently unavailable.");
+            System.out.println("The book '" + title + "' is currently unavailable (borrowed by " + this.borrowerName + ").");
         }
     }
 
-    // Method to return the book
+    /**
+     * Returns the book. Clears borrower details and marks it as available.
+     */
     public void returnBook() {
         if (!isAvailable) {
-            System.out.println(borrowerName + " has returned the book: " + title);
+            System.out.println("The book '" + title + "' has been returned by: " + borrowerName);
             this.isAvailable = true;
-            this.borrowerName = ""; // Clear borrower name when the book is returned
+            this.borrowerName = ""; // Clear borrower name
         } else {
             System.out.println("The book '" + title + "' is already available in the library.");
         }
     }
 
-    // Method to display book details
+    /**
+     * Displays the details of the book.
+     */
     public void displayDetails() {
         System.out.println("Title: " + title);
         System.out.println("Author: " + author);
@@ -56,7 +82,8 @@ public class Book {
         System.out.println();
     }
 
-    // Getters for accessing book properties
+    // ====== Getters ======
+
     public String getTitle() {
         return title;
     }
@@ -77,27 +104,24 @@ public class Book {
         return borrowerName;
     }
 
-    // Setter for borrower name (used for file loading)
+    // ====== Setters ======
+
     public void setBorrowerName(String borrowerName) {
         this.borrowerName = borrowerName;
     }
 
-    // Setter for availability (used for file loading)
     public void setAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
 
-    // Setter for title
     public void setTitle(String title) {
         this.title = title;
     }
 
-    // Setter for author
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    // Setter for ISBN
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
