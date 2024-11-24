@@ -31,7 +31,9 @@ public class LibraryController {
     @FXML
     private TableColumn<Book, String> availabilityColumn;
     @FXML
-    private TableColumn<Book, String> borrowerNameColumn; // New column for Borrower Name
+    private TableColumn<Book, String> borrowerNameColumn;// New column for Borrower Name
+    @FXML
+    private Label UserDisplay;
 
     private final Library library = new Library(); // Library class to manage books
     private final ObservableList<Book> bookData = FXCollections.observableArrayList();
@@ -262,5 +264,9 @@ public class LibraryController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void displayUser(String UserID){
+        UserDisplay.setText("Welcome back! " + UserID);
     }
 }

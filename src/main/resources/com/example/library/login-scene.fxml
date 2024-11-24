@@ -13,13 +13,19 @@
             <Font name="System Bold" size="35.0" />
          </font>
       </Text>
-      <Button layoutX="288.0" layoutY="274.0" mnemonicParsing="false" onAction="#LoginSystem" prefHeight="26.0" prefWidth="64.0" text="Log In">
+      <Button layoutX="298.0" layoutY="312.0" mnemonicParsing="false" onAction="#LoginSystem" prefHeight="26.0" prefWidth="64.0" text="Log In">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <TextField layoutX="239.0" layoutY="216.0" prefHeight="26.0" prefWidth="290.0" />
+      <TextField fx:id="inputUserID" layoutX="239.0" layoutY="216.0" prefHeight="26.0" prefWidth="290.0" />
       <Text layoutX="174.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User ID">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="inputUserPW" layoutX="239.0" layoutY="261.0" prefHeight="26.0" prefWidth="290.0" />
+      <Text layoutX="160.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
          <font>
             <Font size="14.0" />
          </font>
