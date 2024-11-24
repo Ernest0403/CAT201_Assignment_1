@@ -13,22 +13,23 @@
 
     <!-- Top: Menu Bar and Buttons -->
     <top>
-        <HBox spacing="15" style="-fx-padding: 5;" alignment="CENTER_LEFT">
+        <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 5;">
             <!-- Menu Bar -->
             <MenuBar style="-fx-background-color: transparent; -fx-border-color: transparent;">
-                <Menu text="File" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <Menu style="-fx-background-color: transparent; -fx-border-color: transparent;" text="File">
                     <MenuItem onAction="#onSaveLibrary" text="Save Library" />
                     <MenuItem onAction="#onLoadLibrary" text="Load Library" />
                 </Menu>
-                <Menu text="Search" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <Menu style="-fx-background-color: transparent; -fx-border-color: transparent;" text="Search">
                     <MenuItem onAction="#onSearchBook" text="Search Book" />
                 </Menu>
             </MenuBar>
             <!-- Buttons styled without borders -->
-            <Button onAction="#onAddBook" text="Add Book" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" />
-            <Button onAction="#onModifyBook" text="Edit Book Details" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" />
-            <Button onAction="#onBorrowBook" text="Borrow Book" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" />
-            <Button onAction="#onReturnBook" text="Return Book" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" />
+            <Button onAction="#onAddBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Add Book" />
+            <Button onAction="#onModifyBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Edit Book Details" />
+            <Button onAction="#onBorrowBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Borrow Book" />
+            <Button onAction="#onReturnBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Return Book" />
+         <Button mnemonicParsing="false" onAction="#LogoutSystem" prefHeight="26.0" prefWidth="68.0" text="Log Out" />
         </HBox>
     </top>
 
@@ -45,7 +46,3 @@
         </TableView>
     </center>
 </BorderPane>
-
-
-
-
