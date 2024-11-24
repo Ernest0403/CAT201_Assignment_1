@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -9,29 +8,33 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="486.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.library.LibraryController">
 
-    <!-- Top: Menu Bar and Title -->
+    <!-- Top: Menu Bar and Buttons -->
     <top>
-        <VBox>
-            <MenuBar>
-                <Menu text="File">
+        <HBox spacing="15" style="-fx-padding: 5;" alignment="CENTER_LEFT">
+            <!-- Menu Bar -->
+            <MenuBar style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <Menu text="File" style="-fx-background-color: transparent; -fx-border-color: transparent;">
                     <MenuItem onAction="#onSaveLibrary" text="Save Library" />
                     <MenuItem onAction="#onLoadLibrary" text="Load Library" />
                 </Menu>
-                <Menu text="Search">
+                <Menu text="Search" style="-fx-background-color: transparent; -fx-border-color: transparent;">
                     <MenuItem onAction="#onSearchBook" text="Search Book" />
                 </Menu>
             </MenuBar>
-            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Library Management System" />
-        </VBox>
+            <!-- Buttons styled without borders -->
+            <Button onAction="#onAddBook" text="Add Book" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" />
+            <Button onAction="#onModifyBook" text="Edit Book Details" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" />
+            <Button onAction="#onBorrowBook" text="Borrow Book" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" />
+            <Button onAction="#onReturnBook" text="Return Book" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" />
+        </HBox>
     </top>
 
     <!-- Center: Book Table -->
     <center>
-        <TableView fx:id="bookTable" prefHeight="147.0" prefWidth="600.0">
+        <TableView fx:id="bookTable" prefHeight="400.0" prefWidth="600.0">
             <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="232.79999387264252" text="Title" />
                 <TableColumn fx:id="authorColumn" prefWidth="115.20001220703125" text="Author" />
@@ -41,15 +44,8 @@
             </columns>
         </TableView>
     </center>
-
-    <!-- Bottom: Action Buttons -->
-    <bottom>
-        <HBox alignment="center" spacing="10" style="-fx-padding: 10;">
-            <Button onAction="#onAddBook" text="Add Book" />
-            <Button onAction="#onModifyBook" text="Edit Book Details" />
-            <Button onAction="#onBorrowBook" text="Borrow Book" />
-            <Button onAction="#onReturnBook" text="Return Book" />
-        </HBox>
-    </bottom>
-
 </BorderPane>
+
+
+
+
