@@ -2,32 +2,50 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.library.LoginController">
    <children>
-      <Text layoutX="94.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Library Management System">
+      <HBox prefHeight="492.0" prefWidth="660.0" style="-fx-background-color: #fff4ff;" />
+      <HBox layoutY="111.0" prefHeight="261.0" prefWidth="660.0" style="-fx-background-color: #e8daef; -fx-background-radius: 10;" />
+      <Text fill="#a01aae" layoutX="100.0" layoutY="176.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Library Management System">
          <font>
-            <Font name="System Bold" size="35.0" />
+            <Font name="Cambria Bold" size="35.0" />
          </font>
+         <effect>
+            <Lighting bumpInput="$null">
+               <light>
+                  <Light.Distant elevation="124.27" />
+               </light>
+            </Lighting>
+         </effect>
       </Text>
-      <Button layoutX="298.0" layoutY="312.0" mnemonicParsing="false" onAction="#LoginSystem" prefHeight="26.0" prefWidth="64.0" text="Log In">
+      <Button layoutX="298.0" layoutY="312.0" mnemonicParsing="false" onAction="#LoginSystem" prefHeight="26.0" prefWidth="64.0" style="-fx-background-radius: 70;" text="Log In">
          <font>
-            <Font size="14.0" />
+            <Font name="Cambria Bold" size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="inputUserID" layoutX="239.0" layoutY="216.0" prefHeight="26.0" prefWidth="290.0" />
-      <Text layoutX="174.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User ID">
+      <TextField fx:id="inputUserID" layoutX="239.0" layoutY="216.0" prefHeight="26.0" prefWidth="290.0" promptText="Enter your user ID" style="-fx-background-radius: 70;">
          <font>
-            <Font size="14.0" />
+            <Font name="Cambria" size="12.0" />
+         </font></TextField>
+      <Text layoutX="167.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User ID">
+         <font>
+            <Font name="Cambria Bold" size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="inputUserPW" layoutX="239.0" layoutY="261.0" prefHeight="26.0" prefWidth="290.0" />
-      <Text layoutX="160.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+      <TextField fx:id="inputUserPW" layoutX="239.0" layoutY="261.0" prefHeight="26.0" prefWidth="290.0" promptText="Enter your password" style="-fx-background-radius: 70;">
          <font>
-            <Font size="14.0" />
+            <Font name="Cambria" size="12.0" />
+         </font></TextField>
+      <Text layoutX="152.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+         <font>
+            <Font name="Cambria Bold" size="14.0" />
          </font>
       </Text>
    </children>
