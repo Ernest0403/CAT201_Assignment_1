@@ -6,3 +6,4 @@ Hands-On Machine Learning with Scikit-Learn,Keras,9781492032649,Available,
 Data Science for Business,Tom Fawcett,9781449361327,Borrowed,Ben
 Pattern Recognition and Machine Learning,Christopher Bishop,9780387310732,Borrowed,Alice Johnson
 Spiderman,Lenard,22305444,Borrowed,Ernest
+Spiderman 3,Ernest Lim,9798000000023,Available,

@@ -42,15 +42,30 @@ public class LibraryController {
     private Scene scene;
     private Parent root;
 
+    private boolean isSaved = true;
+
     public void LogoutSystem(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("login-scene.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        if(isSaved == false){
+            Dialog dialog = createSaveAlertDialog();
+            Optional<ButtonType> result = dialog.showAndWait();
+
+            if(result.isPresent()){
+                if (result.get() == ButtonType.OK) {
+                    isSaved = true;
+                } else if (result.get() == ButtonType.CANCEL) {
+                    isSaved = false;
+                }
+            }
+        }
+        if(isSaved == true){
+            root = FXMLLoader.load(getClass().getResource("login-scene.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
-    @FXML
     public void initialize() {
         //Link columns to book properties
         titleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTitle()));
@@ -74,6 +89,8 @@ public class LibraryController {
             library.addBook(book);
             bookData.add(book);
         });
+
+        isSaved = false;
     }
 
     @FXML
@@ -93,6 +110,8 @@ public class LibraryController {
             selectedBook.setISBN(updatedBook.getISBN());
             bookTable.refresh(); // Refresh the table to display updated data
         });
+
+        isSaved = false;
     }
 
     @FXML
@@ -116,6 +135,8 @@ public class LibraryController {
             selectedBook.borrowBook(borrower);
             bookTable.refresh();
         });
+
+        isSaved = false;
     }
 
     @FXML
@@ -128,19 +149,27 @@ public class LibraryController {
 
         selectedBook.returnBook();
         bookTable.refresh();
+
+        isSaved = false;
     }
 
     @FXML
     private void onSaveLibrary() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showSaveDialog(null);
+        
         if (file != null) {
             try {
                 library.saveLibrary(file.getPath());
                 showAlert("Success", "Library data saved successfully!");
+                isSaved = true;
             } catch (Exception e) {
                 showAlert("Error", "Failed to save library: " + e.getMessage());
+                isSaved = false;
             }
+        }
+        else {
+            isSaved = false;
         }
     }
 
@@ -244,16 +273,38 @@ public class LibraryController {
                     showAlert("Warning: Empty data", "Please fill in all the data.");
                     return null;
                 }
-                else if(Long.parseLong(isbnField.getText().trim()) < 9780000000000L || Long.parseLong(isbnField.getText().trim()) > 9799999999999L) {
-                    showAlert("Warning: Invalid ISBN", "Please fill in valid ISBN.");
-                    return null;
-                }
                 else {
-                    return new Book(titleField.getText(), authorField.getText(), isbnField.getText());
+                    try {
+                        Long.parseLong(isbnField.getText().trim());
+                    } catch (NumberFormatException e) {
+                        showAlert("Warning: Invalid ISBN", "Please fill in valid ISBN.");
+                    }
+
+                    if(Long.parseLong(isbnField.getText().trim()) < 9780000000000L || Long.parseLong(isbnField.getText().trim()) > 9799999999999L) {
+                        showAlert("Warning: Invalid ISBN", "Please fill in valid ISBN.");
+                        return null;
+                    }
+                    else {
+                        return new Book(titleField.getText(), authorField.getText(), isbnField.getText());
+                    }
                 }
             }
             return null;
         });
+
+        return dialog;
+    }
+
+    private Dialog createSaveAlertDialog(){
+        Dialog dialog = new Dialog();
+        dialog.setTitle("Warning: Save Alert.");
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(new Label("Are you sure to log out without saving the file?"), 0, 0);
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
         return dialog;
     }
