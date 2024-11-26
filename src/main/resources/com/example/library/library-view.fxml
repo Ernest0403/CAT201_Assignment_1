@@ -17,7 +17,7 @@
 
     <!-- Center: Book Table -->
     <center>
-        <TableView fx:id="bookTable" prefHeight="400.0" prefWidth="600.0">
+        <TableView fx:id="bookTable" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #fef8ff;">
             <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="232.79999387264252" text="Title" />
                 <TableColumn fx:id="authorColumn" prefWidth="115.20001220703125" text="Author" />
@@ -32,7 +32,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="UserDisplay" text="Welcome back! ">
+                  <Label fx:id="UserDisplay" prefHeight="35.0" prefWidth="661.0" style="-fx-background-color: #fff4ff;" text="Welcome back! ">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -42,9 +42,9 @@
                   </Label>
                </children>
             </HBox>
-              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="660.0" spacing="15" style="-fx-padding: 5;">
+              <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="660.0" spacing="15" style="-fx-padding: 5; -fx-background-color: #e8daef;">
                   <!-- Menu Bar -->
-                  <MenuBar style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                  <MenuBar style="-fx-background-color: #d7bde2; -fx-border-color: transparent; -fx-background-radius: 10;">
                       <Menu style="-fx-background-color: transparent; -fx-border-color: transparent;" text="File">
                           <MenuItem onAction="#onSaveLibrary" text="Save Library" />
                           <MenuItem onAction="#onLoadLibrary" text="Load Library" />
@@ -54,10 +54,10 @@
                       </Menu>
                   </MenuBar>
                   <!-- Buttons styled without borders -->
-                  <Button onAction="#onAddBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Add Book" />
-                  <Button onAction="#onModifyBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Edit Book Details" />
-                  <Button onAction="#onBorrowBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Borrow Book" />
-                  <Button onAction="#onReturnBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Return Book" />
+                  <Button onAction="#onAddBook" style="-fx-background-color: #eaecee; -fx-border-color: #d2b4de; -fx-text-fill: black; -fx-border-radius: 5;" text="Add Book" />
+                  <Button onAction="#onModifyBook" style="-fx-background-color: #eaecee; -fx-border-color: #d2b4de; -fx-text-fill: black; -fx-border-radius: 5;" text="Edit Book Details" />
+                  <Button onAction="#onBorrowBook" style="-fx-background-color: #eaecee; -fx-border-color: #d2b4de; -fx-text-fill: black; -fx-border-radius: 5;" text="Borrow Book" />
+                  <Button onAction="#onReturnBook" style="-fx-background-color: #eaecee; -fx-border-color: #d2b4de; -fx-text-fill: black; -fx-border-radius: 5;" text="Return Book" />
                <Button mnemonicParsing="false" onAction="#LogoutSystem" prefHeight="26.0" prefWidth="68.0" text="Log Out" />
               </HBox>
          </children>
