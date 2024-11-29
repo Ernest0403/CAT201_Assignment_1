@@ -3,21 +3,19 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="486.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.library.LibraryController">
+<BorderPane prefHeight="486.0" prefWidth="660.0" style="-fx-background-color: #f8e8f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.library.LibraryController">
 
     <!-- Center: Book Table -->
     <center>
-        <TableView fx:id="bookTable" prefHeight="400.0" prefWidth="600.0">
+        <TableView fx:id="bookTable" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffe4f0; -fx-border-color: #d5a6bd;">
             <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="232.79999387264252" text="Title" />
                 <TableColumn fx:id="authorColumn" prefWidth="115.20001220703125" text="Author" />
@@ -27,40 +25,44 @@
             </columns>
         </TableView>
     </center>
-   <top>
-      <VBox prefHeight="76.0" prefWidth="660.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="UserDisplay" text="Welcome back! ">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-               </children>
-            </HBox>
-              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="660.0" spacing="15" style="-fx-padding: 5;">
-                  <!-- Menu Bar -->
-                  <MenuBar style="-fx-background-color: transparent; -fx-border-color: transparent;">
-                      <Menu style="-fx-background-color: transparent; -fx-border-color: transparent;" text="File">
-                          <MenuItem onAction="#onSaveLibrary" text="Save Library" />
-                          <MenuItem onAction="#onLoadLibrary" text="Load Library" />
-                      </Menu>
-                      <Menu style="-fx-background-color: transparent; -fx-border-color: transparent;" text="Search">
-                          <MenuItem onAction="#onSearchBook" text="Search Book" />
-                      </Menu>
-                  </MenuBar>
-                  <!-- Buttons styled without borders -->
-                  <Button onAction="#onAddBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Add Book" />
-                  <Button onAction="#onModifyBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Edit Book Details" />
-                  <Button onAction="#onBorrowBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Borrow Book" />
-                  <Button onAction="#onReturnBook" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;" text="Return Book" />
-               <Button mnemonicParsing="false" onAction="#LogoutSystem" prefHeight="26.0" prefWidth="68.0" text="Log Out" />
-              </HBox>
-         </children>
-      </VBox>
-   </top>
+
+    <!-- Top Section -->
+    <top>
+        <VBox spacing="10" alignment="CENTER" style="-fx-padding: 15;">
+            <children>
+                <!-- Welcome Label -->
+                <Label fx:id="UserDisplay" text="Welcome back! " style="-fx-font-size: 24; -fx-text-fill: #4b0082; -fx-font-weight: bold;" alignment="CENTER">
+                    <padding>
+                        <Insets top="10.0" bottom="10.0"/>
+                    </padding>
+                </Label>
+                <!-- Button Bar -->
+                <HBox alignment="CENTER" spacing="10">
+                    <!-- File Menu Button with Load and Save Library Options -->
+                    <MenuButton text="File">
+                        <items>
+                            <MenuItem onAction="#onLoadLibrary" text="Load Library" />
+                            <MenuItem onAction="#onSaveLibrary" text="Save Library" />
+                        </items>
+                    </MenuButton>
+                    <Button onAction="#onSearchBook" text="Search" />
+                    <Button onAction="#onAddBook" text="Add Book" />
+                    <Button onAction="#onModifyBook" text="Edit Book Details" />
+                    <Button onAction="#onBorrowBook" text="Borrow Book" />
+                    <Button onAction="#onReturnBook" text="Return Book" />
+                    <Button onAction="#LogoutSystem" text="Log Out" />
+                </HBox>
+            </children>
+        </VBox>
+    </top>
 </BorderPane>
+
+
+
+
+
+
+
+
+
+
