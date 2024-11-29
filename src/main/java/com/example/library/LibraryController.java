@@ -19,40 +19,37 @@ import java.io.IOException;
 import java.util.Optional;
 
 
+// Main controller class to manage the library GUI and logic
 public class LibraryController {
-    @FXML
-    private TableView<Book> bookTable;
-    @FXML
-    private TableColumn<Book, String> titleColumn;
-    @FXML
-    private TableColumn<Book, String> authorColumn;
-    @FXML
-    private TableColumn<Book, String> isbnColumn;
-    @FXML
-    private TableColumn<Book, String> availabilityColumn;
-    @FXML
-    private TableColumn<Book, String> borrowerNameColumn;// New column for Borrower Name
-    @FXML
-    private Label UserDisplay;
+    // UI elements for managing the book table and other components
+    @FXML private TableView<Book> bookTable; // Table displaying book information
+    @FXML private TableColumn<Book, String> titleColumn; // Column for book titles
+    @FXML private TableColumn<Book, String> authorColumn; // Column for authors
+    @FXML private TableColumn<Book, String> isbnColumn; // Column for ISBNs
+    @FXML private TableColumn<Book, String> availabilityColumn; // Column for availability status
+    @FXML private TableColumn<Book, String> borrowerNameColumn; // New column for borrower names
+    @FXML private Label UserDisplay; // Label to display user information
 
-    private final Library library = new Library(); // Library class to manage books
-    private final ObservableList<Book> bookData = FXCollections.observableArrayList();
+    private final Library library = new Library(); // Instance of the library to manage books
+    private final ObservableList<Book> bookData = FXCollections.observableArrayList(); // Observable list for table data
 
+    // Navigation-related attributes
     private Stage stage;
     private Scene scene;
     private Parent root;
 
+    // Handles logout and switches back to the login scene
     public void LogoutSystem(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("login-scene.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        root = FXMLLoader.load(getClass().getResource("login-scene.fxml")); // Load login scene
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow(); // Get current stage
+        scene = new Scene(root); // Create new scene
+        stage.setScene(scene); // Set the scene
+        stage.show(); // Show the updated stage
     }
 
-    @FXML
-    public void initialize() {
-        //Link columns to book properties
+    // Initialization logic for the controller
+    @FXML public void initialize() {
+        // Map table columns to book properties
         titleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTitle()));
         authorColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAuthor()));
         isbnColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getISBN()));
@@ -61,165 +58,163 @@ public class LibraryController {
         borrowerNameColumn.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().isAvailable() ? "" : data.getValue().getBorrowerName()));
 
-        // Connect table to observable list
-        bookTable.setItems(bookData);
+        bookTable.setItems(bookData); // Bind the observable list to the table
     }
 
-    @FXML
-    private void onAddBook() {
-        Dialog<Book> dialog = createBookDialog(null); // Pass `null` for a new book
-        Optional<Book> result = dialog.showAndWait();
+    // Event handler for adding a new book
+    @FXML private void onAddBook() {
+        Dialog<Book> dialog = createBookDialog(null); // Create dialog for new book
+        Optional<Book> result = dialog.showAndWait(); // Wait for user input
 
         result.ifPresent(book -> {
-            library.addBook(book);
-            bookData.add(book);
+            library.addBook(book); // Add to library
+            bookData.add(book); // Update observable list
         });
     }
 
-    @FXML
-    private void onModifyBook() {
-        Book selectedBook = bookTable.getSelectionModel().getSelectedItem();
+    // Event handler for modifying a selected book
+    @FXML private void onModifyBook() {
+        Book selectedBook = bookTable.getSelectionModel().getSelectedItem(); // Get selected book
         if (selectedBook == null) {
-            showAlert("No Book Selected", "Please select a book to modify.");
+            showAlert("No Book Selected", "Please select a book to modify."); // Notify if no book selected
             return;
         }
 
-        Dialog<Book> dialog = createBookDialog(selectedBook); // Pre-fill the dialog
+        Dialog<Book> dialog = createBookDialog(selectedBook); // Create pre-filled dialog
         Optional<Book> result = dialog.showAndWait();
 
         result.ifPresent(updatedBook -> {
+            // Update book details
             selectedBook.setTitle(updatedBook.getTitle());
             selectedBook.setAuthor(updatedBook.getAuthor());
             selectedBook.setISBN(updatedBook.getISBN());
-            bookTable.refresh(); // Refresh the table to display updated data
+            bookTable.refresh(); // Refresh table to show updated details
         });
     }
 
-    @FXML
-    private void onBorrowBook() {
+    // Event handler for borrowing a book
+    @FXML private void onBorrowBook() {
         Book selectedBook = bookTable.getSelectionModel().getSelectedItem();
         if (selectedBook == null || !selectedBook.isAvailable()) {
-            showAlert("Invalid Action", "Please select an available book to borrow.");
+            showAlert("Invalid Action", "Please select an available book to borrow."); // Notify invalid action
             return;
         }
 
-        TextInputDialog dialog = new TextInputDialog();
+        TextInputDialog dialog = new TextInputDialog(); // Dialog for borrower's name
         dialog.setTitle("Borrow Book");
         dialog.setHeaderText("Enter Borrower Name:");
         dialog.setContentText("Borrower:");
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(borrower -> {
-            if(borrower.isEmpty()) {
-                showAlert("Invalid Borrower", "Please fill in the name of the borrower.");
-            };
-            selectedBook.borrowBook(borrower);
-            bookTable.refresh();
+            if (borrower.isEmpty()) {
+                showAlert("Invalid Borrower", "Please fill in the name of the borrower."); // Validate input
+                return;
+            }
+            selectedBook.borrowBook(borrower); // Mark book as borrowed
+            bookTable.refresh(); // Update table
         });
     }
 
-    @FXML
-    private void onReturnBook() {
+    // Event handler for returning a borrowed book
+    @FXML private void onReturnBook() {
         Book selectedBook = bookTable.getSelectionModel().getSelectedItem();
         if (selectedBook == null || selectedBook.isAvailable()) {
-            showAlert("Invalid Action", "Please select a borrowed book to return.");
+            showAlert("Invalid Action", "Please select a borrowed book to return."); // Notify invalid action
             return;
         }
 
-        selectedBook.returnBook();
-        bookTable.refresh();
+        selectedBook.returnBook(); // Mark book as returned
+        bookTable.refresh(); // Update table
     }
 
-    @FXML
-    private void onSaveLibrary() {
-        FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showSaveDialog(null);
+    // Save the current library data to a file
+    @FXML private void onSaveLibrary() {
+        FileChooser fileChooser = new FileChooser(); // File chooser for saving
+        File file = fileChooser.showSaveDialog(null); // Open save dialog
         if (file != null) {
             try {
-                library.saveLibrary(file.getPath());
+                library.saveLibrary(file.getPath()); // Save library data
                 showAlert("Success", "Library data saved successfully!");
             } catch (Exception e) {
-                showAlert("Error", "Failed to save library: " + e.getMessage());
+                showAlert("Error", "Failed to save library: " + e.getMessage()); // Handle errors
             }
         }
     }
 
-    @FXML
-    private void onLoadLibrary() {
-        FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(null);
+    // Load library data from a file
+    @FXML private void onLoadLibrary() {
+        FileChooser fileChooser = new FileChooser(); // File chooser for loading
+        File file = fileChooser.showOpenDialog(null); // Open load dialog
         if (file != null) {
             try {
-                library.loadLibrary(file.getPath());
-                bookData.setAll(library.getBooks()); // Update table with loaded books
+                library.loadLibrary(file.getPath()); // Load library data
+                bookData.setAll(library.getBooks()); // Update table data
                 showAlert("Success", "Library data loaded successfully!");
             } catch (Exception e) {
-                showAlert("Error", "Failed to load library: " + e.getMessage());
+                showAlert("Error", "Failed to load library: " + e.getMessage()); // Handle errors
             }
         }
     }
 
-    @FXML
-    private void onSearchBook() {
-        // Display a dialog to ask for the search type and query
+    // Search for a book based on user-specified criteria
+    @FXML private void onSearchBook() {
+        // Dialog for search type
         ChoiceDialog<String> searchTypeDialog = new ChoiceDialog<>("Title", "Title", "Author", "ISBN");
         searchTypeDialog.setTitle("Search Book");
         searchTypeDialog.setHeaderText("Search for a Book");
         searchTypeDialog.setContentText("Search by:");
 
-        Optional<String> searchTypeResult = searchTypeDialog.showAndWait();
+        Optional<String> searchTypeResult = searchTypeDialog.showAndWait(); // Wait for user selection
         if (searchTypeResult.isEmpty()) {
-            return; // If no type is selected, exit the method
+            return; // Exit if no search type selected
         }
 
-        String searchType = searchTypeResult.get(); // Get the selected search type
-
-        // Display a TextInputDialog for the search query
+        // Dialog for search query
         TextInputDialog queryDialog = new TextInputDialog();
         queryDialog.setTitle("Search Book");
         queryDialog.setHeaderText("Search for a Book");
-        queryDialog.setContentText("Enter the " + searchType + ":");
+        queryDialog.setContentText("Enter the " + searchTypeResult.get() + ":");
 
         Optional<String> queryResult = queryDialog.showAndWait();
         if (queryResult.isEmpty()) {
-            return; // If no query is entered, exit the method
+            return; // Exit if no query provided
         }
 
-        String query = queryResult.get().trim(); // Get the entered query and trim spaces
+        String query = queryResult.get().trim(); // Trim input query
 
-        // Search for the book in the ObservableList
+        // Search and highlight matching book
         for (Book book : bookData) {
-            boolean match = switch (searchType.toLowerCase()) {
+            boolean match = switch (searchTypeResult.get().toLowerCase()) {
                 case "title" -> book.getTitle().equalsIgnoreCase(query);
-                case "author" -> book.getAuthor().equalsIgnoreCase(query); // Check for author match
-                case "isbn" -> book.getISBN().equalsIgnoreCase(query); // Check for ISBN match
+                case "author" -> book.getAuthor().equalsIgnoreCase(query);
+                case "isbn" -> book.getISBN().equalsIgnoreCase(query);
                 default -> false;
             };
 
             if (match) {
-                // Highlight the found book in the TableView
-                bookTable.getSelectionModel().select(book);
-                bookTable.scrollTo(book); // Ensure the selected book is visible
+                bookTable.getSelectionModel().select(book); // Select the matched book
+                bookTable.scrollTo(book); // Ensure visibility
                 showAlert("Book Found", "Found: " + book.getTitle() + " by " + book.getAuthor());
-                return; // Exit after finding the first match
+                return;
             }
         }
 
-        // If no match is found
-        showAlert("No Book Found", "No book matches the query.");
+        showAlert("No Book Found", "No book matches the query."); // Notify if no match found
     }
 
-
+    // Utility to create a dialog for adding or modifying books
     private Dialog<Book> createBookDialog(Book book) {
         Dialog<Book> dialog = new Dialog<>();
         dialog.setTitle(book == null ? "Add Book" : "Modify Book");
 
-        // Create input fields
+        // Fields for book details
         TextField titleField = new TextField();
         TextField authorField = new TextField();
         TextField isbnField = new TextField();
 
-        if (book != null) { // Pre-fill with existing data
+        // Pre-fill fields for modification
+        if (book != null) {
             titleField.setText(book.getTitle());
             authorField.setText(book.getAuthor());
             isbnField.setText(book.getISBN());
@@ -238,19 +233,20 @@ public class LibraryController {
         dialog.getDialogPane().setContent(grid);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
+        // Convert user input to a Book instance
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
-                if(titleField.getText().isEmpty() || authorField.getText().isEmpty() || isbnField.getText().isEmpty()) {
+                // Validate inputs
+                if (titleField.getText().isEmpty() || authorField.getText().isEmpty() || isbnField.getText().isEmpty()) {
                     showAlert("Warning: Empty data", "Please fill in all the data.");
                     return null;
                 }
-                else if(Long.parseLong(isbnField.getText().trim()) < 9780000000000L || Long.parseLong(isbnField.getText().trim()) > 9799999999999L) {
+                if (Long.parseLong(isbnField.getText().trim()) < 9780000000000L ||
+                        Long.parseLong(isbnField.getText().trim()) > 9799999999999L) {
                     showAlert("Warning: Invalid ISBN", "Please fill in valid ISBN.");
                     return null;
                 }
-                else {
-                    return new Book(titleField.getText(), authorField.getText(), isbnField.getText());
-                }
+                return new Book(titleField.getText(), authorField.getText(), isbnField.getText());
             }
             return null;
         });
@@ -258,6 +254,7 @@ public class LibraryController {
         return dialog;
     }
 
+    // Utility to display alert messages
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -266,7 +263,8 @@ public class LibraryController {
         alert.showAndWait();
     }
 
-    public void displayUser(String UserID){
-        UserDisplay.setText("Welcome back! " + UserID);
+    // Display user information
+    public void displayUser(String UserID) {
+        UserDisplay.setText("Welcome back! " + UserID); // Display a personalized welcome message
     }
 }
