@@ -11,10 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+// Controller for log in scene
 public class LoginController {
     private Stage stage;
     private Scene scene;
 
+    // UI elements for managing the log in features
     @FXML
     private TextField inputUserID;
 
@@ -23,7 +25,9 @@ public class LoginController {
 
     private String UserID;
 
+    // Function to load the library scene after log in
     public void LoginSystem(ActionEvent event) throws IOException {
+        // Valid the login information
         if(inputUserID.getText().isEmpty() && inputUserPW.getText().isEmpty()) {
             showAlert("Warning: Invalid User ID and Password", "Please fill in a valid User ID and Password");
         }
@@ -36,11 +40,12 @@ public class LoginController {
 
             UserID = inputUserID.getText();
 
+            // Switch scene to the library scene
             Parent root = loader.load();
             LibraryController libController = loader.getController();
             libController.displayUser(UserID);
 
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow(); //it retrieves the scene associate with the node and cast the window to the stage.
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -48,6 +53,7 @@ public class LoginController {
 
     }
 
+    // Alert function if invalid input is detected
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

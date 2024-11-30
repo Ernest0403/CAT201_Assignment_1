@@ -241,6 +241,7 @@ public class LibraryController {
                     showAlert("Warning: Empty data", "Please fill in all the data.");
                     return null;
                 }
+                // Validate the ISBN input, make sure that the user enters a valid ISBN
                 if (Long.parseLong(isbnField.getText().trim()) < 9780000000000L ||
                         Long.parseLong(isbnField.getText().trim()) > 9799999999999L) {
                     showAlert("Warning: Invalid ISBN", "Please fill in valid ISBN.");
@@ -263,7 +264,7 @@ public class LibraryController {
         alert.showAndWait();
     }
 
-    // Display user information
+    // Display user information as the title
     public void displayUser(String UserID) {
         UserDisplay.setText("Welcome back! " + UserID); // Display a personalized welcome message
     }
