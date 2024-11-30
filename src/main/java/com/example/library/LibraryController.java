@@ -38,13 +38,29 @@ public class LibraryController {
     private Scene scene;
     private Parent root;
 
+    private boolean isSaved = true;
+
     // Handles logout and switches back to the login scene
     public void LogoutSystem(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("login-scene.fxml")); // Load login scene
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow(); // Get current stage
-        scene = new Scene(root); // Create new scene
-        stage.setScene(scene); // Set the scene
-        stage.show(); // Show the updated stage
+        if(isSaved == false){
+            Dialog dialog = createSaveAlertDialog();
+            Optional<ButtonType> result = dialog.showAndWait();
+
+            if(result.isPresent()){
+                if (result.get() == ButtonType.OK) {
+                    isSaved = true;
+                } else if (result.get() == ButtonType.CANCEL) {
+                    isSaved = false;
+                }
+            }
+        }
+        if(isSaved == true){
+            root = FXMLLoader.load(getClass().getResource("login-scene.fxml")); // Load login scene
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow(); // Get current stage
+            scene = new Scene(root); // Create new scene
+            stage.setScene(scene); // Set the scene
+            stage.show(); // Show the updated stage
+        }
     }
 
     // Initialization logic for the controller
@@ -70,6 +86,7 @@ public class LibraryController {
             library.addBook(book); // Add to library
             bookData.add(book); // Update observable list
         });
+        isSaved = false;
     }
 
     // Event handler for modifying a selected book
@@ -90,6 +107,7 @@ public class LibraryController {
             selectedBook.setISBN(updatedBook.getISBN());
             bookTable.refresh(); // Refresh table to show updated details
         });
+        isSaved = false;
     }
 
     // Event handler for borrowing a book
@@ -114,6 +132,7 @@ public class LibraryController {
             selectedBook.borrowBook(borrower); // Mark book as borrowed
             bookTable.refresh(); // Update table
         });
+        isSaved = false;
     }
 
     // Event handler for returning a borrowed book
@@ -126,6 +145,7 @@ public class LibraryController {
 
         selectedBook.returnBook(); // Mark book as returned
         bookTable.refresh(); // Update table
+        isSaved = false;
     }
 
     // Save the current library data to a file
@@ -140,6 +160,7 @@ public class LibraryController {
                 showAlert("Error", "Failed to save library: " + e.getMessage()); // Handle errors
             }
         }
+        isSaved = true;
     }
 
     // Load library data from a file
