@@ -7,31 +7,20 @@ import java.util.List;
 public class Library {
     private final List<Book> books = new ArrayList<>();
 
-    /**
-     * Adds a new book to the library.
-     *
-     * @param book The book to add.
-     */
+    //Adds a new book to the library.
     public void addBook(Book book) {
         books.add(book);
     }
 
-    /**
-     * Retrieves all books in the library.
-     *
-     * @return A list of all books in the library.
-     */
+    //Retrieves all books in the library.
     public List<Book> getBooks() {
         return new ArrayList<>(books); // Return a copy to prevent modification
     }
 
-    /**
-     * Searches for a book in the library based on a query.
-     *
-     * @param query The search query (e.g., title, author, or ISBN).
-     * @param type  The type of search ("title", "author", or "isbn").
-     * @return The first book that matches the query, or null if no match is found.
-     */
+//     Searches for a book in the library based on a query.
+//     The search query (e.g., title, author, or ISBN).
+//     The type of search ("title", "author", or "isbn").
+//     The function returns the first book that matches the query, or null if no match is found.
     public Book searchBook(String query, String type) {
         return switch (type.toLowerCase()) {
             case "title" -> books.stream()
@@ -53,12 +42,9 @@ public class Library {
         };
     }
 
-    /**
-     * Loads library data from a CSV file.
-     *
-     * @param filename The file path of the CSV file.
-     * @throws IOException If an error occurs while reading the file.
-     */
+
+    //Loads library data from a CSV file.
+    //filename refers to the file path of the CSV file.
     public void loadLibrary(String filename) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             books.clear(); // Clear existing data
@@ -84,12 +70,7 @@ public class Library {
         }
     }
 
-    /**
-     * Saves library data to a CSV file.
-     *
-     * @param filename The file path where the library data will be saved.
-     * @throws IOException If an error occurs while writing to the file.
-     */
+    // Saves library data to a CSV file.
     public void saveLibrary(String filename) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Book book : books) {
@@ -105,13 +86,8 @@ public class Library {
         }
     }
 
-    /**
-     * Modifies the details of a book in the library based on its title.
-     *
-     * @param title       The title of the book to modify.
-     * @param newBookData The new book data to update.
-     * @return True if the book was successfully updated, false otherwise.
-     */
+//     Modifies the details of a book in the library based on its title.
+//     The function returns True if the book was successfully updated, false otherwise.
     public boolean modifyBook(String title, Book newBookData) {
         Book bookToModify = books.stream()
                 .filter(book -> book.getTitle().equalsIgnoreCase(title))
@@ -129,13 +105,10 @@ public class Library {
         return false;
     }
 
-    /**
-     * Borrows a book from the library.
-     *
-     * @param title        The title of the book to borrow.
-     * @param borrowerName The name of the borrower.
-     * @return True if the book was successfully borrowed, false otherwise.
-     */
+
+//     Borrows a book from the library.
+//     The function returns True if the book was successfully borrowed, false otherwise.
+
     public boolean borrowBook(String title, String borrowerName) {
         Book bookToBorrow = books.stream()
                 .filter(book -> book.getTitle().equalsIgnoreCase(title) && book.isAvailable())
@@ -149,12 +122,7 @@ public class Library {
         return false;
     }
 
-    /**
-     * Returns a book to the library.
-     *
-     * @param title The title of the book to return.
-     * @return True if the book was successfully returned, false otherwise.
-     */
+    //Returns a book to the library.
     public boolean returnBook(String title) {
         Book bookToReturn = books.stream()
                 .filter(book -> book.getTitle().equalsIgnoreCase(title) && !book.isAvailable())
