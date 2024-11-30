@@ -264,6 +264,21 @@ public class LibraryController {
         alert.showAndWait();
     }
 
+    //Save alert if file is modified but not yet saved before logout.
+    private Dialog createSaveAlertDialog(){
+        Dialog dialog = new Dialog();
+        dialog.setTitle("Warning: Save Alert.");
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(new Label("Are you sure to log out without saving the file?"), 0, 0);
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        return dialog;
+    }
+
     // Display user information as the title
     public void displayUser(String UserID) {
         UserDisplay.setText("Welcome back! " + UserID); // Display a personalized welcome message
